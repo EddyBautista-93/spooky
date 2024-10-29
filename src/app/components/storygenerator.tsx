@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Camera, Type } from "lucide-react";
+import imageCompression from "browser-image-compression";
 
 export const StoryGenerator = () => {
   const [inputType, setInputType] = useState<"text" | "image">("text");
@@ -11,14 +12,16 @@ export const StoryGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // helps with timeout issue 
+      const compressedFile = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1024 });
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string); // Set the image preview
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressedFile);
     }
   };
 
