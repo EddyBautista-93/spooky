@@ -19,6 +19,7 @@ async function generateStoryFromText(storyIdea: string): Promise<string | null> 
     apiKey: process.env.OPENAI_API_KEY,
   });
 
+
   const response = await openAI.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
@@ -95,6 +96,8 @@ export async function POST(request: Request) {
 
   try {
     let story: string | null;
+
+    if(!image || !storyIdea) throw new Error("No story idea or image provided");
 
     if (image) {
       const base64Img = await encodeImageToBase64(image);

@@ -36,13 +36,13 @@ export const StoryGenerator = () => {
     setStory(null);
     setAudioUrl(null);
     try {
-      const formData = new FormData();
-      if (inputType === "text") {
-        formData.append("storyIdea", idea);
-      } else if (fileInputRef.current && fileInputRef.current.files?.[0]) {
-        formData.append("image", fileInputRef.current.files[0]);
-      }
-
+        const formData = new FormData();
+        if (inputType === "text" && idea) {
+          formData.append("storyIdea", idea);
+        } else if (inputType === "image" && fileInputRef.current?.files?.[0]) {
+          formData.append("image", fileInputRef.current.files[0]);
+        }
+        
       const response = await fetch("/api/spooky-story", {
         method: "POST",
         body: formData,
