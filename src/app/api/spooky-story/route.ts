@@ -9,6 +9,18 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
+async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
+    const params = {
+      Bucket: process.env.S3_BUCKET_NAME!,
+      Key: key,
+      Body: buffer,
+      ContentType: "audio/mpeg",
+    };
+  
+    await s3.upload(params).promise();
+    return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+  }
+
 const encodeImageToBase64 = async (image: File): Promise<string> => {
   const buffer = Buffer.from(await image.arrayBuffer());
   return buffer.toString("base64");
@@ -18,7 +30,6 @@ async function generateStoryFromText(storyIdea: string): Promise<string | null> 
   const openAI = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
-
 
   const response = await openAI.chat.completions.create({
     model: "gpt-4o-mini",
@@ -76,17 +87,7 @@ async function generateVoice(story: string): Promise<Buffer> {
   return Buffer.from(await mp3.arrayBuffer());
 }
 
-async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
-  const params = {
-    Bucket: process.env.S3_BUCKET_NAME!,
-    Key: key,
-    Body: buffer,
-    ContentType: "audio/mpeg",
-  };
 
-  await s3.upload(params).promise();
-  return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
-}
 
 
 export async function POST(request: Request) {
@@ -96,8 +97,6 @@ export async function POST(request: Request) {
 
   try {
     let story: string | null;
-
-    if(!image || !storyIdea) throw new Error("No story idea or image provided");
 
     if (image) {
       const base64Img = await encodeImageToBase64(image);
