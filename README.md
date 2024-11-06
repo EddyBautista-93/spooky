@@ -1,4 +1,5 @@
-# Spooky 🎃
+# Spooky 🎃 (Took home 1st place!)
+
 
 _Hello Ghouls and Goblins! This is my submission to the ACM Halloween Dev Contest._
 
