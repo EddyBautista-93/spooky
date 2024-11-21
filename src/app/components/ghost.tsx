@@ -23,7 +23,7 @@ export const Ghost = () => {
       </div>
       {isHovered && (
         <div className="absolute top-[-40px] left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-3 py-1 rounded-full text-sm whitespace-nowrap">
-          Happy Halloween!
+          Hello!
         </div>
       )}
     </div>

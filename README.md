@@ -129,6 +129,8 @@ The same logic applies to the Pomodoro section, but the difference is that we've
 
 The main component we will review is `StoryGenerator.tsx`. This is a form that sends a POST request to our API handler to generate spooky content.
 
+
+
 ### `api/spooky-story/route.ts`
 
 `route.ts` is a server function that handles API requests for server-side operations. You would want to use this type of API route for:

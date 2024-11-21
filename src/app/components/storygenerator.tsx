@@ -57,7 +57,7 @@ export const StoryGenerator = () => {
       setAudioUrl(data.audioUrl);
     } catch (error) {
       console.error("Error generating story:", error);
-      alert("An error occurred while generating the story. Please try again.");
+      alert("An error occurred while generating the story. Did you forget to provide a input?");
     } finally {
       setIsLoading(false);
     }
@@ -111,7 +111,6 @@ export const StoryGenerator = () => {
             <div className="mt-4">
               <img
                 src={image}
-                alt="Uploaded"
                 className="max-w-full h-auto rounded"
               />
             </div>
